@@ -13,6 +13,7 @@ from pathlib import Path
 load_dotenv(dotenv_path=Path("api.env"))
 
 
+
 app=FastAPI()
 
 class SummaryInput(BaseModel):
@@ -38,11 +39,12 @@ def refined_summary(text: str) -> str:
 @app.post("/refine")
 async def refine(input_data: SummaryInput):
     try:
-        refined_summaries={}
+        refined_summaries = {}
         for heading, text in input_data.summaries.items():
-            refined=refined_summary(text)
-
-            refined_summaries[heading]=refined
-        return{"refined summary": refined_summaries}
+            refined = refined_summary(text)  # Call the function once
+            # Clean the text to remove extra spaces and newlines
+            cleaned_refined_text = refined.replace("\n", " ").strip()
+            refined_summaries[heading] = cleaned_refined_text
+        return {"refined summary": refined_summaries}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
