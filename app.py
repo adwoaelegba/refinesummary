@@ -4,8 +4,14 @@ from typing import Dict
 import openai
 import os
 from dotenv import load_dotenv
+from bs4 import BeautifulSoup
+import requests
 
-load_dotenv()
+#load_dotenv("api.env")
+
+from pathlib import Path
+load_dotenv(dotenv_path=Path("api.env"))
+
 
 app=FastAPI()
 
@@ -26,12 +32,16 @@ def refined_summary(text: str) -> str:
     )
     return response.choices[0].message.content
 
+
+
+
 @app.post("/refine")
 async def refine(input_data: SummaryInput):
     try:
         refined_summaries={}
         for heading, text in input_data.summaries.items():
             refined=refined_summary(text)
+
             refined_summaries[heading]=refined
         return{"refined summary": refined_summaries}
     except Exception as e:
