@@ -3,14 +3,13 @@ from pydantic import BaseModel
 from typing import Dict
 import openai
 import os
-from dotenv import load_dotenv
-from bs4 import BeautifulSoup
-import requests
+#from dotenv import load_dotenv
+
 
 #load_dotenv("api.env")
 
-from pathlib import Path
-load_dotenv(dotenv_path=Path("api.env"))
+#from pathlib import Path
+#load_dotenv(dotenv_path=Path("api.env"))
 
 
 
